@@ -86,7 +86,7 @@ p {
 }
 
 img {
-    background-color: #665030;
+    background-color: #274C43;
     border-radius: 10px;
     padding: 5%;
     height: 40px;
@@ -94,5 +94,5 @@ img {
 }
 
 .active {
-    background-color: #8d7044;
+    background-color: aquamarine;
 }
