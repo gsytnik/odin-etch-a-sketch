@@ -12,6 +12,22 @@
     </div>
     <div class="controlBar">
         <div class="controlLeft">
+            <img src="./img/draw.png" class="action active" id="draw">
+            <img src="./img/eraser.png" class="action" id="erase">
+        </div>
+        <div class = controlMiddle>
+            <input 
+                type="range" 
+                id="canvasSize" 
+                name="canvasSize" 
+                min="16" 
+                max="130"
+                value="100" 
+                step="2"
+            >
+            <p>Grid Size: 
+                <output id="canvasSizeValue"></output>
+            </p>
         </div>
         <div class="controlRight">
         </div>

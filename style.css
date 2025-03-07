@@ -51,10 +51,48 @@ body {
     padding: 2% 20% 0% 20%;
 }
 
+.controlLeft, .controlBar {
+    display: flex;
+}
+
 .controlBar {
     margin-top: 10px;
     border-radius: 10px;
     background-color: #141414;
     min-width: 200px;
-    aspect-ratio: 10/1;
+    aspect-ratio: 15/1;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.controlLeft{
+    padding-left: 2%;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
+}
+
+.controlMiddle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+}
+
+p {
+    margin: 4px;
+    text-align: center;
+    color: aquamarine;
+}
+
+img {
+    background-color: #665030;
+    border-radius: 10px;
+    padding: 5%;
+    height: 40px;
+    width: 40px;
+}
+
+.active {
+    background-color: #8d7044;
 }
