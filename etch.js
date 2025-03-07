@@ -1,7 +1,36 @@
 function main(){
-    populateGrid(16);
+    populateGrid(100);
+
+    let canvas = document.querySelector('.canvasContainer');
+    let currentColor = '#ffffff';
+
+    let colorEventHandler = HandleColorEvent(currentColor);
+
+
+    canvas.addEventListener('mousedown', (event) => {
+        event.preventDefault();
+        // console.log('mousedown');
+        HandleColorEvent(currentColor)(event);
+        canvas.addEventListener('mouseover', colorEventHandler);
+    });
+
+    canvas.addEventListener('mouseup', (event) => {
+        canvas.removeEventListener('mouseover', colorEventHandler);
+        // console.log('mouseup');
+    });
     
 }
+
+
+function HandleColorEvent(currentColor) {
+    return function setColor(event) {
+        let target = event.target;
+        if (target.className === 'canvasSquare') {
+            target.style.background = currentColor;
+        }
+    }
+}
+
 
 function populateGrid(width) {
     let canvas = document.querySelector('.canvasContainer');

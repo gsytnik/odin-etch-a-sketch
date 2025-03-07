@@ -14,13 +14,12 @@ html, body{
 body, .canvasContainer, .canvasRow{
     display: flex;
     justify-content: center;
-    align-items: stretch;
 }
 
 .canvasContainer {
     margin-top: 20px;
 
-    width: 60%;
+    width: 100%;
     flex-shrink: 1;
     aspect-ratio: 5/3;
 
@@ -47,3 +46,15 @@ body, .canvasContainer, .canvasRow{
     flex: 1;
 }
 
+body {
+    flex-direction: column;
+    padding: 2% 20% 0% 20%;
+}
+
+.controlBar {
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color: #141414;
+    min-width: 200px;
+    aspect-ratio: 10/1;
+}
