@@ -1,13 +1,108 @@
 function main(){
 
-    const input = document.querySelector('#canvasSize');
+    const sliderInput = document.querySelector('#canvasSize');
     const outputValue = document.querySelector('#canvasSizeValue');
-    outputValue.textContent = getGridDimensionsFromWidth(input.value);
-    let currentGridSize = [input.value];
     const canvas = document.querySelector('.canvasContainer');
     const controlBar = document.querySelector('.controlBar');
-    populateGrid(currentGridSize[0]);
+    const colorInput = document.querySelector('#colorPicker');
 
+    outputValue.textContent = getGridDimensionsFromWidth(sliderInput.value);
+    let currentGridSize = [sliderInput.value];
+    populateGrid(currentGridSize[0]);
+    populatePalette();
+
+    setSizeSliderEventListeners(sliderInput, outputValue, currentGridSize, canvas);
+
+    let currentlyDrawing = [1];
+    let currentColor = [colorInput.value, '#274C43'];
+
+    setupColorPickerEventListeners(colorInput, currentColor, currentlyDrawing);
+    setupControlBarEventListeners(controlBar, currentColor, currentlyDrawing, canvas, currentGridSize);
+
+    let colorEventHandler = HandleColorEvent(currentColor);
+
+    canvas.addEventListener('mousedown', (event) => {
+        event.preventDefault();
+        // console.log('mousedown');
+        HandleColorEvent(currentColor)(event);
+        canvas.addEventListener('mouseover', colorEventHandler);
+    });
+
+    canvas.addEventListener('mouseup', (event) => {
+        canvas.removeEventListener('mouseover', colorEventHandler);
+        // console.log('mouseup');
+    });
+    
+}
+
+
+function setupColorPickerEventListeners(colorInput, currentColor, currentlyDrawing){
+    colorInput.addEventListener('input', (event) => {
+        currentlyDrawing[0] ? currentColor[0] = event.target.value : currentColor[1] = event.target.value;
+    });
+}
+
+
+function setupControlBarEventListeners(controlBar, currentColor, currentlyDrawing, canvas, currentGridSize) {
+
+    controlBar.addEventListener('click', (event) => {
+        let target = event.target;
+        if (target.classList.contains("action")){
+            handleActionButtonEvent(target, currentColor, currentlyDrawing, canvas, currentGridSize);
+        }
+
+        if (target.classList.contains('paletteSquare')){
+            target.style.background = currentlyDrawing[0] ? currentColor[0] : currentColor[1];
+        }
+    });
+
+    fancifyButtons();
+
+}
+
+
+function handleActionButtonEvent(target, currentColor, currentlyDrawing, canvas, currentGridSize){
+    document.querySelector('.active').classList.remove('active');
+    target.classList.add('active');
+
+    let swapped = 
+        ((currentlyDrawing[0] && target.id === 'erase')
+        || (!currentlyDrawing[0] && target.id === 'draw') 
+    );
+    
+    if (swapped) {
+        [currentColor[0], currentColor[1]] = [currentColor[1], currentColor[0]];
+        currentlyDrawing[0] = currentlyDrawing[0] ? 0 : 1;
+    }
+
+    if (target.id == 'clear' && window.confirm(`This will erase the entire canvas. Proceed?`)){
+        canvas.replaceChildren();
+        populateGrid(currentGridSize[0]);
+    }
+}
+
+
+function fancifyButtons(){
+    let translatedClasses = [];
+
+    document.addEventListener('mousedown', (event) => {
+        let target = event.target;
+        if (target.classList.contains("action")){
+            event.preventDefault();
+            event.target.style.transform = 'translateY(4px)';
+            translatedClasses.push(target);
+        }
+    });
+
+    document.addEventListener('mouseup', (event) => {
+        for (element of translatedClasses) {
+            element.style.transform = 'translateY(0px)';
+        }
+    });
+}
+
+
+function setSizeSliderEventListeners(input, outputValue, currentGridSize, canvas){
     input.addEventListener('input', (event) => {
         outputValue.textContent = getGridDimensionsFromWidth(event.target.value);
     });
@@ -24,35 +119,6 @@ function main(){
             outputValue.textContent = getGridDimensionsFromWidth(currentGridSize[0]);
         }
     });
-
-    let currentlyDrawing = [1];
-    let currentColor = ['#ffffff'];
-
-    let colorEventHandler = HandleColorEvent(currentColor);
-
-    controlBar.addEventListener('click', (event) => {
-        let target = event.target;
-        if (target.classList.contains("action")){
-            document.querySelector('.active').classList.remove('active');
-            target.classList.add('active');
-
-            currentlyDrawing[0] = target.id === 'draw' ? 1 : 0;
-            currentColor[0] = currentlyDrawing[0] ? '#ffffff' : '#274C43';
-        }
-    })
-
-    canvas.addEventListener('mousedown', (event) => {
-        event.preventDefault();
-        // console.log('mousedown');
-        HandleColorEvent(currentColor)(event);
-        canvas.addEventListener('mouseover', colorEventHandler);
-    });
-
-    canvas.addEventListener('mouseup', (event) => {
-        canvas.removeEventListener('mouseover', colorEventHandler);
-        // console.log('mouseup');
-    });
-    
 }
 
 
@@ -82,6 +148,23 @@ function populateGrid(width) {
         }
 
         canvas.appendChild(row);
+    }
+
+    return;
+}
+
+
+function populatePalette() {
+    let palette = document.querySelector('.palette');
+
+    for (j = 0; j < 2; j++) {
+        let div = document.createElement('div');
+        for (i = 0; i < 4; i++) {
+            let paletteSquare = document.createElement('div');
+            paletteSquare.setAttribute('class', 'paletteSquare');
+            div.appendChild(paletteSquare);
+        }
+        palette.appendChild(div);
     }
 
     return;

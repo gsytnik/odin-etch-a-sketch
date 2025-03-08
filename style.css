@@ -9,6 +9,10 @@ html, body{
 
 *, *::after, *::before{
     box-sizing: inherit;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+    
 }
 
 body, .canvasContainer, .canvasRow{
@@ -51,7 +55,7 @@ body {
     padding: 2% 20% 0% 20%;
 }
 
-.controlLeft, .controlBar {
+.controlLeft, .controlBar, .controlRight {
     display: flex;
 }
 
@@ -60,14 +64,19 @@ body {
     border-radius: 10px;
     background-color: #141414;
     min-width: 200px;
-    aspect-ratio: 15/1;
+    aspect-ratio: 12/1;
     justify-content: space-between;
     align-items: stretch;
+    flex-wrap: wrap;
+    padding: 2%;
 }
 
 .controlLeft{
-    padding-left: 2%;
-    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
+}
+
+.controlRight{
     align-items: center;
     gap: 4px;
 }
@@ -93,6 +102,41 @@ img {
     width: 40px;
 }
 
+image:active{
+    transform: translateY(4px);
+}
+
 .active {
     background-color: aquamarine;
 }
+
+
+#colorPicker{
+    border: 0;
+    background-color: #ffffff00;
+    height: 40px;
+    width: 40px;
+    border-radius: 10px;
+}
+
+.paletteSquare {
+    height: 18px;
+    width: 18px;
+    background-color: aliceblue;
+}
+
+.palette, .palette div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.palette {
+    flex-direction: column;
+    gap: 4px;
+}
+
+.palette div {
+    gap: 4px;
+}
+
