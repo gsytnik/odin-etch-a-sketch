@@ -86,12 +86,15 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: stretch;
+    width:30%;
+    min-width: 120px;
 }
 
 p {
     margin: 4px;
     text-align: center;
     color: aquamarine;
+    font-size: 18px;
 }
 
 img {
@@ -100,10 +103,6 @@ img {
     padding: 5%;
     height: 40px;
     width: 40px;
-}
-
-image:active{
-    transform: translateY(4px);
 }
 
 .active {
