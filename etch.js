@@ -62,8 +62,6 @@ function setupControlBarEventListeners(controlBar, currentColor, currentlyDrawin
 
 
 function handleActionButtonEvent(target, currentColor, currentlyDrawing, canvas, currentGridSize){
-    document.querySelector('.active').classList.remove('active');
-    target.classList.add('active');
 
     let swapped = 
         ((currentlyDrawing[0] && target.id === 'erase')
@@ -73,9 +71,13 @@ function handleActionButtonEvent(target, currentColor, currentlyDrawing, canvas,
     if (swapped) {
         [currentColor[0], currentColor[1]] = [currentColor[1], currentColor[0]];
         currentlyDrawing[0] = currentlyDrawing[0] ? 0 : 1;
+        document.querySelector('.active').classList.remove('active');
+        target.classList.add('active');
     }
 
     if (target.id == 'clear' && window.confirm(`This will erase the entire canvas. Proceed?`)){
+        document.querySelector('.active').classList.remove('active');
+        target.classList.add('active');
         canvas.replaceChildren();
         populateGrid(currentGridSize[0]);
     }
